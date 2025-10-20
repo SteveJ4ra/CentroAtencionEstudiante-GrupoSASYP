@@ -2,66 +2,33 @@ package modelo;
 
 import java.time.LocalDateTime;
 
-public class Accion {
+// Clase abstracta para el patrón Command, esencial para Undo/Redo
+// (Registrar acciones mínimas: añadir nota, eliminar nota, cambio de estado) [cite: 47, 48]
+public abstract class Accion {
 
-    private String tipo;
-    private String descripcion;
-    private LocalDateTime fechahora;
-    private String object;
+    private final String tipo;
+    private final String descripcion;
+    private final LocalDateTime fechaHora;
 
-    //Uso del constructor
-
-    public Accion(String tipo, String descripcion, LocalDateTime fechahora, String object) {
+    public Accion(String tipo, String descripcion) {
         this.tipo = tipo;
         this.descripcion = descripcion;
-        this.fechahora = fechahora;
-        this.object = object;
+        this.fechaHora = LocalDateTime.now();
     }
 
-    //Uso de un Getter and Setter
+    // Método a implementar para ejecutar la acción (usado en Redo)
+    public abstract void ejecutar();
 
-    public String getTipo() {
-        return tipo;
-    }
+    // Método a implementar para deshacer la acción (usado en Undo)
+    public abstract void deshacer();
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public LocalDateTime getFechahora() {
-        return fechahora;
-    }
-
-    public void setFechahora(LocalDateTime fechahora) {
-        this.fechahora = fechahora;
-    }
-
-    public String getObject() {
-        return object;
-    }
-
-    public void setObject(String object) {
-        this.object = object;
-    }
-
-    //Uso de un toString
+    // Getters...
+    public String getTipo() { return tipo; }
+    public String getDescripcion() { return descripcion; }
+    public LocalDateTime getFechaHora() { return fechaHora; }
 
     @Override
     public String toString() {
-        return "Accion{" +
-                "tipo='" + tipo + '\'' +
-                ", descripcion='" + descripcion + '\'' +
-                ", fechahora=" + fechahora +
-                ", object='" + object + '\'' +
-                '}';
+        return String.format("%s: %s (%s)", tipo, descripcion, fechaHora);
     }
 }
-

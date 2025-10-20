@@ -1,12 +1,18 @@
-package estructuras.cola;//Indica el paquete que almacena el archivo
+package estructuras.cola;
 
-// Para cada nodo de la cola
-public class Nodo {
-    int valor;     // Contador de nodos
-    Nodo sig;      // Enlaza un nodo con el que le sigue
+import modelo.Ticket;
 
-    public Nodo(int valor) {//Para incrementar nodos
-        this.valor = valor;//Cambiamos el valor actual
-        this.sig = null;//Y dejamos el siguiente como nulo
+public class NodoCola { // Corregido el nombre
+    private Ticket dato;
+    private NodoCola siguiente; // Corregido el tipo
+
+    public NodoCola(Ticket dato) {
+        this.dato = dato;
+        this.siguiente = null;
     }
+
+    // Getters para acceso en QuequeCAE
+    public Ticket getDato() { return dato; }
+    public NodoCola getSiguiente() { return siguiente; }
+    public void setSiguiente(NodoCola siguiente) { this.siguiente = siguiente; }
 }

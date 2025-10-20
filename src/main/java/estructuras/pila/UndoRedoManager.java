@@ -1,57 +1,57 @@
 package estructuras.pila;
 
+import modelo.Accion;
+
 public class UndoRedoManager {
-  private final PilaAcciones pilaUndo = new PilaAcciones();
+    // Uso de dos pilas para el mecanismo undo/redo [cite: 20]
+    private final PilaAcciones pilaUndo = new PilaAcciones();
     private final PilaAcciones pilaRedo = new PilaAcciones();
 
-  //Resgistro de la accion que vamos a estar ejecutando dando con el pila de undo y el redo de pila
-
+    // Registra la acción: la pone en Undo y limpia Redo (historial corto)
     public void registrarAccion(Accion accion) {
         pilaUndo.push(accion);
-        pilaRedo.limpiar();
+        pilaRedo.limpiar(); // Al hacer una nueva acción, se pierde el historial de Redo
     }
 
-  //Esto Deshace la ultima accion que se hizo y devuelve un true si se hace el deshizo
+    // Deshace la última acción. Devuelve true si se pudo deshacer.
     public boolean deshacer() {
         Accion accion = pilaUndo.pop();
-        if (accion == null) return false;
-        try {
-            accion.undo();
-            pilaRedo.push(accion);
-            return true;
-        } catch (Exception e) {
-            // Manejo de errores: si la deshacer falla, podrías querer registrar/loggear
-            System.err.println("Error al deshacer: " + e.getMessage());
+        if (accion == null) {
+            // Caso borde: Deshacer sin acciones previas [cite: 27]
+            System.err.println("No hay acciones para deshacer.");
             return false;
         }
+
+        // Se usa el método 'deshacer' de la clase Accion (patrón Command)
+        accion.deshacer();
+        pilaRedo.push(accion); // Mueve la acción a Redo para poder rehacerla
+        return true;
+
     }
 
-  //Esto es para rehacer la accion que se halla deshechado y devuelve un true si se rehace algo
-  
+    // Rehace la última acción deshecha. Devuelve true si se pudo rehacer.
     public boolean rehacer() {
         Accion accion = pilaRedo.pop();
-        if (accion == null) return false;
-        try {
-            accion.execute();
-            pilaUndo.push(accion);
-            return true;
-        } catch (Exception e) {
-            System.err.println("Error al rehacer: " + e.getMessage());
+        if (accion == null) {
+            // Caso borde: Rehacer sin acciones previas [cite: 27]
+            System.err.println("No hay acciones para rehacer.");
             return false;
         }
+
+        // Se usa el método 'ejecutar' de la clase Accion (patrón Command)
+        accion.ejecutar();
+        pilaUndo.push(accion); // Mueve la acción de vuelta a Undo
+        return true;
+
     }
 
     public boolean hayUndo() { return !pilaUndo.estaVacia(); }
     public boolean hayRedo() { return !pilaRedo.estaVacia(); }
-
     public int undoCount() { return pilaUndo.getSize(); }
     public int redoCount() { return pilaRedo.getSize(); }
 
-  // Esto se hace para limipar ambos historiales con el undo y redo
-    
     public void limpiarHistorial() {
         pilaUndo.limpiar();
         pilaRedo.limpiar();
-    }
-
+    }
 }

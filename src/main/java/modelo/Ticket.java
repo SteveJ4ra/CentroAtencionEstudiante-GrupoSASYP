@@ -4,60 +4,51 @@ import estructuras.lista.ListaNotas;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Ticket {
-    private static final AtomicInteger GENERADOR_ID = new AtomicInteger(1); //sirve para aumentar de 1 en 1 cada ves que se lo use
+    // Generador de ID para el ticket
+    private static final AtomicInteger GENERADOR_ID = new AtomicInteger(1);
     private int id;
     private String nombreCliente;
-    private String estado;
+    // Uso del enum Estado (corrección)
+    private Estado estado;
     private ListaNotas listaNotas;
+    // Generador de ID para Notas, dentro del ticket para asegurar unicidad por ticket
+    private AtomicInteger generadorIdNota = new AtomicInteger(1);
 
 
-    public Ticket(String nombreCliente, String estadoInicial) {
+    public Ticket(String nombreCliente, Estado estadoInicial) {
         this.id = GENERADOR_ID.getAndIncrement();
         this.nombreCliente = nombreCliente;
         this.estado = estadoInicial;
         this.listaNotas = new ListaNotas();
     }
 
-    //Metodo para gr
-    public void agregarNota(String texto){
-        int idNota = (int)(Math.random()*1000);
+    // Metodos para gestionar notas (sin la lógica de impresión para separar dominio de E/S)
+    public Nota agregarNota(String texto){
+        // ID de nota incremental por ticket
+        int idNota = generadorIdNota.getAndIncrement();
         Nota nueva = new Nota(idNota, texto);
-        listaNotas.insertarInicio(nueva);
-        System.out.println("Nota:" + idNota + "agregada al ticket: " + this.id);
+        listaNotas.insertarInicio(nueva); // Inserción al inicio (Requisito SLL )
+        return nueva;
     }
 
-    public void eliminarNota(int idNota){
-        boolean ok = listaNotas.eliminar(idNota);
-
-        if(ok){
-            System.out.println("Nota eliminada correctamente del ticket #"+ id);
-        }else{
-            System.out.println("No se encontro la nota con el ID #" + idNota);
-        }
+    public Nota eliminarNota(int idNota){ // <-- ¡Cambio de retorno de void a Nota!
+        // listaNotas.eliminar ahora devuelve la Nota eliminada.
+        return listaNotas.eliminar(idNota);
     }
 
-    public void cambiarEstado(String nuevoEstado){
+    public void cambiarEstado(Estado nuevoEstado){
         this.estado = nuevoEstado;
-        System.out.println("Ticket #"+ id + "ahora esta en estado: " + nuevoEstado);
     }
 
-    public void mostrarHistorial(){
-        System.out.println("Historial de notas del ticket #" + id + ":");
-        listaNotas.mostrar();
-    }
-
+    // Getters y toString (corrección de tipo de estado)
     @Override
     public String toString() {
-        return String.format("Ticket #%d | Cliente: %s | Estado: %s", id, nombreCliente, estado);
+        return String.format("Ticket #%d | Cliente: %s | Estado: %s", id, nombreCliente, estado.toString());
     }
 
-    public int getId() {
-        return id;
-    }
-    public String getNombreCliente() {
-        return nombreCliente;
-    }
-    public String getEstado() {
-        return estado;
-    }
+    public int getId() { return id; }
+    public String getNombreCliente() { return nombreCliente; }
+    public Estado getEstado() { return estado; }
+    // Nuevo getter esencial para que las acciones puedan modificar la lista de notas
+    public ListaNotas getListaNotas() { return listaNotas; }
 }

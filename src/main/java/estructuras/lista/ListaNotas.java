@@ -14,31 +14,40 @@ public class ListaNotas {
         return cabeza == null;
     }
 
+    // Cumple: Insertar al inicio
     public void insertarInicio(Nota n){
         NodoNota nuevo = new NodoNota(n);
-        nuevo.siguiente = cabeza;
+        // Uso de setSiguiente() y getSiguiente()
+        nuevo.setSiguiente(cabeza);
         cabeza = nuevo;
     }
 
-    public boolean eliminar(int id){
-        if (estaVacia()) return false;
+    // Cumple: Eliminar la primera coincidencia
+    public Nota eliminar(int id){ // <-- ¡Cambio de retorno de boolean a Nota!
+        if (estaVacia()) return null;
 
-        if(cabeza.dato.getId()==id){
-            cabeza=cabeza.siguiente;
-            return true;
+        // Caso 1: Eliminar la cabeza
+        if(cabeza.getDato().getId()==id){
+            Nota notaEliminada = cabeza.getDato(); // 1. Capturar el objeto a eliminar
+            cabeza = cabeza.getSiguiente();
+            return notaEliminada;                  // 2. Retornarlo
         }
 
         NodoNota actual = cabeza;
-        while(actual.siguiente!=null && actual.siguiente.dato.getId()!=id){
-            actual=actual.siguiente;
+        // Uso de los getters corregidos (getSiguiente() y getDato())
+        while(actual.getSiguiente()!=null && actual.getSiguiente().getDato().getId()!=id){
+            actual=actual.getSiguiente();
         }
 
-        if(actual.siguiente == null) return false;
+        if(actual.getSiguiente() == null) return null; // No se encontró
 
-        actual.siguiente = actual.siguiente.siguiente;
-        return true;
+        // Caso 2: Eliminar nodo intermedio/final
+        Nota notaEliminada = actual.getSiguiente().getDato(); // 1. Capturar el objeto
+        actual.setSiguiente(actual.getSiguiente().getSiguiente());
+        return notaEliminada;                            // 2. Retornarlo
     }
 
+    // Cumple: Recorrer para listar
     public void mostrar(){
         if(estaVacia()){
             System.out.println("La lista se encuentra vacia");
@@ -48,8 +57,9 @@ public class ListaNotas {
         NodoNota aux = cabeza;
 
         while(aux!=null){
-            System.out.println("   " + aux.dato);
-            aux = aux.siguiente;
+            // Uso de getDato() y getSiguiente()
+            System.out.println("   " + aux.getDato());
+            aux = aux.getSiguiente();
         }
     }
 }

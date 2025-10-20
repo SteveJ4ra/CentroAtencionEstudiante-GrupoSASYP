@@ -1,24 +1,32 @@
 package estructuras.pila;
 
+import modelo.Accion;
+
 public class PilaAcciones {
-  private NodoPila tope;
+    private NodoPila tope;
     private int size = 0;
 
+    // Push: insertar en la cima
     public void push(Accion accion) {
+        // Uso del constructor con enlace
         tope = new NodoPila(accion, tope);
         size++;
     }
 
+    // Pop: sacar de la cima
     public Accion pop() {
-        if (tope == null) return null;
-        Accion a = tope.dato;
-        tope = tope.siguiente;
+        if (estaVacia()) return null; // Caso borde: pila vacía [cite: 27]
+
+        Accion a = tope.getDato();
+        // Mover el tope al siguiente (referencia en el nodo)
+        tope = tope.getSiguiente();
         size--;
         return a;
     }
 
+    // Peek: ver la cima
     public Accion peek() {
-        return tope == null ? null : tope.dato;
+        return estaVacia() ? null : tope.getDato();
     }
 
     public boolean estaVacia() {
@@ -33,5 +41,4 @@ public class PilaAcciones {
         tope = null;
         size = 0;
     }
-
 }
