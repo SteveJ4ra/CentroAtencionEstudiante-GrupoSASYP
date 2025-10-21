@@ -63,20 +63,42 @@ El sistema maneja escenarios críticos para mantener su estabilidad y coherencia
 1. Ir a la clase principal **`SistemaCAE`** y ejecutarla.  
 2. Aparecerá el menú principal con las siguientes opciones:
 
-| Opción | Descripción |
-|:--------|:-------------|
-| 1️⃣ | Registrar ticket → se añade a la cola (EN COLA). |
-| 2️⃣ | Consultar los tickets en espera. |
-| 3️⃣ | Iniciar atención → toma el ticket más antiguo y lo pone “EN ATENCIÓN”. |
-| 4️⃣ | Gestión activa del ticket (submenu):<br> &nbsp;&nbsp;1️⃣ Registrar Nota<br> &nbsp;&nbsp;2️⃣ Eliminar Nota<br> &nbsp;&nbsp;3️⃣ Cambiar Estado<br> &nbsp;&nbsp;4️⃣ Deshacer (Undo)<br> &nbsp;&nbsp;5️⃣ Rehacer (Redo)<br> &nbsp;&nbsp;6️⃣ Finalizar Caso |
-| 5️⃣ | Consultar historial de un ticket finalizado por su ID. |
-| 0️⃣ | Salir del sistema. |
+---
+
+#### 🧾 Opción 1: Recepción de Nuevo Caso
+Permite registrar un nuevo trámite ingresando el nombre o descripción del estudiante.  
+El ticket se encola automáticamente con estado **EN_COLA**.
+
+#### 👀 Opción 2: Consultar Casos en Espera
+Muestra en pantalla todos los tickets pendientes con su ID, nombre y estado actual.
+
+#### ▶️ Opción 3: Iniciar Atención
+Toma el primer ticket en la fila (el más antiguo) y lo pasa al estado **EN_ATENCIÓN**.  
+A partir de este punto, se puede registrar notas o cambiar el estado del caso.
+
+#### 🧠 Opción 4: Gestión Activa del Ticket
+Despliega un submenú que permite realizar operaciones sobre el caso actual:
+1. Registrar Nota → Añade observaciones o avances del caso.  
+2. Eliminar Nota → Permite borrar notas mediante su ID.  
+3. Cambiar Estado → Modifica el estado del ticket según su progreso.  
+4. Deshacer (Undo) → Revierte la última acción realizada.  
+5. Rehacer (Redo) → Restaura una acción previamente deshecha.  
+6. Finalizar Caso → Cierra el caso y lo archiva en el historial.  
+0. Volver al Menú Principal.
+
+#### 📜 Opción 5: Consultar Historial
+Permite buscar un ticket finalizado por su ID, mostrando su información completa y todas las notas registradas durante el proceso.
+
+#### ❌ Opción 0: Salir
+Finaliza la ejecución del programa de manera segura.
 
 ---
 
 ## ✒️ Autores
 
-👨‍💻 **Equipo de Desarrollo del Sistema CAE**  
+👨‍💻 **Equipo de Desarrollo - Sistema CAE**  
+Proyecto desarrollado en el marco académico de la Universidad Nacional de Loja.  
+
 - Anderson Coello  
 - Steven Jumbo  
 - Yandri Piscocama  
@@ -86,5 +108,3 @@ El sistema maneja escenarios críticos para mantener su estabilidad y coherencia
 ---
 
 ⌨️ con ❤️ por el equipo **CAE** — Universidad Nacional de Loja 🎓
-
-
