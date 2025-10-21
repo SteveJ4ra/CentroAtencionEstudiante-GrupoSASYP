@@ -25,8 +25,6 @@ public class GestorTickets {
         this.ticketsFinalizados = new HashMap<>();
     }
 
-    // --- Métodos de Gestión de Cola (Recepción de casos) ---
-
     // Recepción de un nuevo caso 
     public void recibirNuevoCaso(String nombreCliente) {
         // El estado inicial es EN_COLA (set en QuequeCAE.enqueque)
@@ -41,9 +39,7 @@ public class GestorTickets {
         System.out.println("---------------------------------");
     }
 
-    // --- Métodos de Atención de Caso ---
-
-    // Tomar el siguiente caso de la cola para atención [cite: 14]
+    // Tomar el siguiente caso de la cola para atención
     public boolean iniciarAtencion() {
         if (ticketEnAtencion != null) {
             System.err.println(" Ya hay un ticket en atención (#" + ticketEnAtencion.getId() + "). Finalice primero.");
@@ -84,8 +80,6 @@ public class GestorTickets {
         undoRedoManager.limpiarHistorial(); // Limpiar el historial corto al finalizar
         return true;
     }
-
-    // --- Métodos de Operación en Atención (Observaciones/Notas) ---
 
     // Registrar una observación (nota) 
     public boolean registrarNota(String texto) {
@@ -128,7 +122,6 @@ public class GestorTickets {
         }
 
         // El metodo ticketEnAtencion.eliminarNota(id) debe devolver la Nota eliminada (Nota o null)
-        // Para que esto funcione, ListaNotas debe haber sido corregida para devolver Nota, NO boolean.
         Nota notaEliminada = ticketEnAtencion.eliminarNota(idNota);
 
         if (notaEliminada != null) {
@@ -156,8 +149,6 @@ public class GestorTickets {
         return false;
     }
 
-    // --- Métodos de Consulta ---
-
     // Consulta del historial de un caso específico 
     public void consultarHistorial(int idTicket) {
         Ticket ticket = ticketsFinalizados.get(idTicket);
@@ -171,7 +162,6 @@ public class GestorTickets {
         System.out.println("----------------------------------------");
     }
 
-    // Getters
     public Ticket getTicketEnAtencion() {
         return ticketEnAtencion;
     }
