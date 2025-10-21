@@ -63,7 +63,7 @@ public class GestorTickets {
         return true;
     }
 
-    // Finalización de la atención de un caso [cite: 16]
+    // Finalización de la atención de un caso 
     public boolean finalizarCaso(Estado estadoFinal) {
         if (ticketEnAtencion == null) {
             System.err.println(" No hay caso en atención para finalizar.");
@@ -87,14 +87,14 @@ public class GestorTickets {
 
     // --- Métodos de Operación en Atención (Observaciones/Notas) ---
 
-    // Registrar una observación (nota) [cite: 14]
+    // Registrar una observación (nota) 
     public boolean registrarNota(String texto) {
         if (ticketEnAtencion == null) {
             System.err.println(" No hay caso en atención. Inicie uno primero.");
             return false;
         }
         Nota nuevaNota = ticketEnAtencion.agregarNota(texto);
-        // Registrar la acción para poder deshacer/rehacer [cite: 20, 48]
+        // Registrar la acción para poder deshacer/rehacer 
         AccionAgregarNota accion = new AccionAgregarNota(ticketEnAtencion, nuevaNota);
         undoRedoManager.registrarAccion(accion);
         System.out.println(" Nota agregada y acción registrada para Undo.");
@@ -158,7 +158,7 @@ public class GestorTickets {
 
     // --- Métodos de Consulta ---
 
-    // Consulta del historial de un caso específico [cite: 17]
+    // Consulta del historial de un caso específico 
     public void consultarHistorial(int idTicket) {
         Ticket ticket = ticketsFinalizados.get(idTicket);
         if (ticket == null) {
