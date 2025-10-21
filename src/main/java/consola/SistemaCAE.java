@@ -91,7 +91,7 @@ public class SistemaCAE {
 
     private static void gestorAtencion() {
         if (gestor.getTicketEnAtencion() == null) {
-            System.err.println("🚫 No hay ningún ticket en atención activa. Inicie uno (Opción 3) primero.");
+            System.err.println(" No hay ningún ticket en atención activa. Inicie uno (Opción 3) primero.");
             return;
         }
 
