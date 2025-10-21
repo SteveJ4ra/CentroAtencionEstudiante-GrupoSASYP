@@ -46,7 +46,7 @@ public class GestorTickets {
     // Tomar el siguiente caso de la cola para atención [cite: 14]
     public boolean iniciarAtencion() {
         if (ticketEnAtencion != null) {
-            System.err.println("⚠ Ya hay un ticket en atención (#" + ticketEnAtencion.getId() + "). Finalice primero.");
+            System.err.println(" Ya hay un ticket en atención (#" + ticketEnAtencion.getId() + "). Finalice primero.");
             return false;
         }
         Ticket siguiente = colaTickets.dequeue();
