@@ -4,7 +4,7 @@ import modelo.Nota;
 
 public class ListaNotas {
 
-    private NodoNota cabeza;
+    private NodoNota cabeza; // Guarda la referencia al primer nodo de la lista
 
     public ListaNotas() {
         this.cabeza = null;
@@ -14,19 +14,18 @@ public class ListaNotas {
         return cabeza == null;
     }
 
-    // Cumple: Insertar al inicio
+    // Insertar al inicio
     public void insertarInicio(Nota n){
         NodoNota nuevo = new NodoNota(n);
-        // Uso de setSiguiente() y getSiguiente()
-        nuevo.setSiguiente(cabeza);
-        cabeza = nuevo;
+        nuevo.setSiguiente(cabeza); // la cabeza pasa a ser el siguiente del nuevo nodo
+        cabeza = nuevo; // el nuevo nodo es la cabeza....
     }
 
-    // Cumple: Eliminar la primera coincidencia
-    public Nota eliminar(int id){ // <-- ¡Cambio de retorno de boolean a Nota!
+    // Eliminar la primera coincidencia
+    public Nota eliminar(int id){
         if (estaVacia()) return null;
 
-        // Caso 1: Eliminar la cabeza
+        // Eliminar la cabeza
         if(cabeza.getDato().getId()==id){
             Nota notaEliminada = cabeza.getDato(); // 1. Capturar el objeto a eliminar
             cabeza = cabeza.getSiguiente();
@@ -34,14 +33,14 @@ public class ListaNotas {
         }
 
         NodoNota actual = cabeza;
-        // Uso de los getters corregidos (getSiguiente() y getDato())
+        // buscar el nodo intermedio/final
         while(actual.getSiguiente()!=null && actual.getSiguiente().getDato().getId()!=id){
             actual=actual.getSiguiente();
         }
 
         if(actual.getSiguiente() == null) return null; // No se encontró
 
-        // Caso 2: Eliminar nodo intermedio/final
+        // Eliminar nodo intermedio/final
         Nota notaEliminada = actual.getSiguiente().getDato(); // 1. Capturar el objeto
         actual.setSiguiente(actual.getSiguiente().getSiguiente());
         return notaEliminada;                            // 2. Retornarlo

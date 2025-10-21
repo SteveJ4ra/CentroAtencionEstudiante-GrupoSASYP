@@ -4,19 +4,20 @@ import modelo.Ticket;
 import modelo.Estado; // Necesario para el estado inicial
 
 public class QuequeCAE {
-    private NodoCola frente; // Inicio de la cola (por donde se saca)
-    private NodoCola fin;    // Fin de la cola (por donde se inserta)
-    private int tamanio;
+    private NodoCola frente; // Inicio de la cola (el primer dato a salir)
+    private NodoCola fin;    // Fin de la cola (por donde se inserta primeramente datos)
+    private int tamanio; // Almacena cuántos tickets hay en la cola
 
     // Insertar un nuevo ticket al final de la cola
     public void enqueque(Ticket ticket) {
-        NodoCola nuevo = new NodoCola(ticket);
+        NodoCola nuevo = new NodoCola(ticket); // crea un nuevo nodo con el ticket
         if (estaVacia()) {
-            frente = nuevo;
+            frente = nuevo; // si está vacía la cola, el nuevo es el primero
         } else {
             fin.setSiguiente(nuevo);
         }
-        fin = nuevo; // El nuevo nodo siempre es el nuevo fin
+        fin = nuevo;
+         // El nuevo nodo siempre es el nuevo fin
         tamanio++;
         ticket.cambiarEstado(Estado.EN_COLA); // Establecer estado inicial
     }
@@ -24,7 +25,7 @@ public class QuequeCAE {
     // Sacar el ticket del frente de la cola (FIFO)
     public Ticket dequeue() {
         if (estaVacia()) {
-            return null; // Caso borde: cola vacía [cite: 27]
+            return null; // La cola está vacía si no hay ni un solo valor al frente
         }
         Ticket ticketAtendido = frente.getDato();
         frente = frente.getSiguiente(); // Mover el frente al siguiente
@@ -33,11 +34,6 @@ public class QuequeCAE {
         }
         tamanio--;
         return ticketAtendido;
-    }
-
-    // Ver el ticket del frente sin sacarlo
-    public Ticket peek() {
-        return estaVacia() ? null : frente.getDato();
     }
 
     // Recorrer y listar los tickets en espera

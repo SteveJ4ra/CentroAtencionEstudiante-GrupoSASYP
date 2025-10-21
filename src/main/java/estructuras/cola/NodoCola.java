@@ -2,13 +2,13 @@ package estructuras.cola;
 
 import modelo.Ticket;
 
-public class NodoCola { // Corregido el nombre
-    private Ticket dato;
-    private NodoCola siguiente; // Corregido el tipo
+public class NodoCola {
+    private Ticket dato; // almacena un objeto Ticket, o el estudiante en la cola
+    private NodoCola siguiente; // almacena una referencia al siguiente nodo en la cola
 
     public NodoCola(Ticket dato) {
         this.dato = dato;
-        this.siguiente = null;
+        this.siguiente = null; // El nodo siguiente es null por defecto
     }
 
     // Getters para acceso en QuequeCAE

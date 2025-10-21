@@ -3,8 +3,8 @@ package estructuras.lista;
 import modelo.Nota;
 
 public class NodoNota {
-    private Nota dato; // Debe ser private
-    private NodoNota siguiente; // Debe ser private
+    private Nota dato; // almacena un objeto Nota
+    private NodoNota siguiente; // almacena una referencia al siguiente nodo en la lista o la siguiente Nota
 
     public NodoNota(Nota dato) {
         this.dato = dato;
