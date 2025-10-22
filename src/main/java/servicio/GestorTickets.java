@@ -7,8 +7,6 @@ import modelo.Estado;
 import modelo.Nota;
 import servicio.acciones.AccionAgregarNota;
 import servicio.acciones.AccionCambiarEstado;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.TreeMap;
 
 import servicio.acciones.AccionEliminarNota;
@@ -89,12 +87,6 @@ public class GestorTickets {
         return true;
     }
 
-<<<<<<< Updated upstream
-=======
-
-    // --- Métodos de Operación en Atención (Observaciones/Notas) ---
-
->>>>>>> Stashed changes
     // Registrar una observación (nota) 
     public boolean registrarNota(String texto) {
         if (ticketEnAtencion == null) {
@@ -107,14 +99,6 @@ public class GestorTickets {
         undoRedoManager.registrarAccion(accion);
         System.out.println(" Nota agregada y acción registrada para Undo.");
         return true;
-    }
-
-    public int undoCount() {
-        return undoRedoManager.undoCount();
-    }
-
-    public int redoCount() {
-        return undoRedoManager.redoCount();
     }
 
     public boolean eliminarNota(int idNota) {
@@ -165,24 +149,6 @@ public class GestorTickets {
         return false;
     }
 
-<<<<<<< Updated upstream
-=======
-
-    // Nuevo método para listar casos finalizados
-    public void listarCasosFinalizados() {
-        if (ticketsFinalizados == null || ticketsFinalizados.isEmpty()) {
-            System.out.println("No se ha finalizado ningún caso.");
-            return;
-        }
-        System.out.println("\n--- Casos Finalizados (" + ticketsFinalizados.size() + ") ---");
-        for (Map.Entry<Integer, Ticket> entry : ticketsFinalizados.entrySet()) {
-            Ticket t = entry.getValue();
-            System.out.println("Ticket #" + t.getId() + " - Cliente: " + t.getNombreCliente() + " - Estado: " + t.getEstado());
-            // Listar notas (si quieres mostrar sólo resumen de notas, podrías modificar ListaNotas)
-            t.getListaNotas().mostrar();
-            System.out.println("---------------------------------");
-        }
-    }
     // Devuelve true si existen tickets finalizados en el historial
     public boolean hayTicketsFinalizados() {
         return ticketsFinalizados != null && !ticketsFinalizados.isEmpty();
@@ -190,7 +156,6 @@ public class GestorTickets {
 
     // --- Métodos de Consulta ---
 
->>>>>>> Stashed changes
     // Consulta del historial de un caso específico 
     public void consultarHistorial(int idTicket) {
         Ticket ticket = ticketsFinalizados.get(idTicket);

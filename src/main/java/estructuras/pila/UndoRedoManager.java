@@ -54,8 +54,6 @@ public class UndoRedoManager {
         return true;
     }
 
-    public boolean hayUndo() { return !pilaUndo.estaVacia(); }
-    public boolean hayRedo() { return !pilaRedo.estaVacia(); }
     public int undoCount() { return pilaUndo.getSize(); }
     public int redoCount() { return pilaRedo.getSize(); }
 

@@ -1,8 +1,5 @@
 package consola;
 
-import estructuras.cola.QuequeCAE;
-import estructuras.lista.ListaNotas;
-import estructuras.lista.NodoNota;
 import servicio.GestorTickets;
 import modelo.Estado;
 import java.util.Scanner;

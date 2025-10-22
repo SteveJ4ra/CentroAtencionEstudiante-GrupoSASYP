@@ -24,10 +24,6 @@ public class PilaAcciones {
         return a;
     }
 
-    // Peek: ver la cima
-    public Accion peek() {
-        return estaVacia() ? null : tope.getDato();
-    }
 
     public boolean estaVacia() {
         return tope == null;

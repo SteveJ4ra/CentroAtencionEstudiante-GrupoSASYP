@@ -9,12 +9,6 @@ public class Nota {
     private String texto;
     private LocalDateTime fechaHora;
 
-    public Nota(int id, String texto, LocalDateTime fechaHora) {
-        this.id = id;
-        this.texto = texto;
-        this.fechaHora = fechaHora;
-    }
-
     public Nota (int id, String texto){
         this.id = id;
         this.texto = texto;
@@ -27,10 +21,6 @@ public class Nota {
 
     public String getTexto() {
         return texto;
-    }
-
-    public LocalDateTime getFechaHora() {
-        return fechaHora;
     }
 
     @Override

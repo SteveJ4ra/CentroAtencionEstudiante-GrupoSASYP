@@ -18,10 +18,6 @@ public abstract class Accion {
     public abstract void ejecutar();
     public abstract void deshacer();
 
-    public String getTipo() { return tipo; }
-    public String getDescripcion() { return descripcion; }
-    public LocalDateTime getFechaHora() { return fechaHora; }
-
     public String getResumen() {
         return String.format("%s: %s", tipo, descripcion);
     }

@@ -6,11 +6,6 @@ public class NodoPila {
     private Accion dato;
     private NodoPila siguiente; // Usar 'siguiente' para consistencia con otras estructuras
 
-    public NodoPila(Accion dato) {
-        this.dato = dato;
-        this.siguiente = null;
-    }
-
     // Constructor corregido para enlazar al crear (conveniente para el push)
     public NodoPila(Accion dato, NodoPila siguiente) {
         this.dato = dato;
@@ -20,5 +15,4 @@ public class NodoPila {
     // Getters y Setters
     public Accion getDato() { return dato; }
     public NodoPila getSiguiente() { return siguiente; }
-    public void setSiguiente(NodoPila siguiente) { this.siguiente = siguiente; }
 }
