@@ -5,7 +5,7 @@ import modelo.Estado; // Necesario para el estado inicial
 
 public class QuequeCAE {
     private NodoCola frente; // Inicio de la cola (el primer dato a salir)
-    private NodoCola fin;    // Fin de la cola (por donde se inserta primeramente datos)
+    private NodoCola fin;  // Fin de la cola (por donde se inserta primeramente datos)
     private int tamanio; // Almacena cuántos tickets hay en la cola
 
     // Insertar un nuevo ticket al final de la cola
@@ -46,7 +46,10 @@ public class QuequeCAE {
         int i = 1;
         while (actual != null) {
             // Se usa el toString de Ticket
-            System.out.println(String.format("%d. %s", i++, actual.getDato().toString()));
+            System.out.println("ID: " + actual.getDato().getId() +
+                    " | Nombre: " + actual.getDato().getNombreCliente() +
+                    " | Estado: " + actual.getDato().getEstado());
+
             actual = actual.getSiguiente();
         }
     }

@@ -29,4 +29,11 @@ public class AccionCambiarEstado extends Accion {
     public void deshacer() {
         ticket.cambiarEstado(estadoAnterior);
     }
+
+    @Override
+    public String getResumenDetallado() {
+        return String.format("CAMBIO_ESTADO: Ticket #%d - De %s a %s",
+                ticket.getId(), estadoAnterior, estadoNuevo);
+    }
+
 }

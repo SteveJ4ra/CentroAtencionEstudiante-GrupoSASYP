@@ -3,46 +3,55 @@ package estructuras.pila;
 import modelo.Accion;
 
 public class UndoRedoManager {
-    // Uso de dos pilas para el mecanismo undo/redo [cite: 20]
     private final PilaAcciones pilaUndo = new PilaAcciones();
     private final PilaAcciones pilaRedo = new PilaAcciones();
 
-    // Registra la acción: la pone en Undo y limpia Redo (historial corto)
     public void registrarAccion(Accion accion) {
+        if (accion == null) return;
         pilaUndo.push(accion);
-        pilaRedo.limpiar(); // Al hacer una nueva acción, se pierde el historial de Redo
+        pilaRedo.limpiar();
     }
 
     // Deshace la última acción. Devuelve true si se pudo deshacer.
     public boolean deshacer() {
+        if (pilaUndo == null || pilaUndo.estaVacia()) {
+            System.err.println("No hay acciones para deshacer.");
+            return false;
+        }
         Accion accion = pilaUndo.pop();
         if (accion == null) {
-            // Caso borde: Deshacer sin acciones previas [cite: 27]
             System.err.println("No hay acciones para deshacer.");
             return false;
         }
 
-        // Se usa el método 'deshacer' de la clase Accion (patrón Command)
         accion.deshacer();
-        pilaRedo.push(accion); // Mueve la acción a Redo para poder rehacerla
-        return true;
+        pilaRedo.push(accion);
 
+        // Mensaje detallado de lo que se deshizo
+        System.out.println("Se deshizo: " + accion.getResumenDetallado());
+        return true;
     }
+
 
     // Rehace la última acción deshecha. Devuelve true si se pudo rehacer.
     public boolean rehacer() {
-        Accion accion = pilaRedo.pop();
-        if (accion == null) {
-            // Caso borde: Rehacer sin acciones previas [cite: 27]
+        if (pilaRedo == null || pilaRedo.estaVacia()) {
             System.err.println("No hay acciones para rehacer.");
             return false;
         }
 
-        // Se usa el método 'ejecutar' de la clase Accion (patrón Command)
-        accion.ejecutar();
-        pilaUndo.push(accion); // Mueve la acción de vuelta a Undo
-        return true;
+        Accion accion = pilaRedo.pop();
+        if (accion == null) {
+            System.err.println("No hay acciones para rehacer.");
+            return false;
+        }
 
+        accion.ejecutar();
+        pilaUndo.push(accion);
+
+        // Mensaje detallado de lo que se rehizo
+        System.out.println("Se rehizo: " + accion.getResumenDetallado());
+        return true;
     }
 
     public boolean hayUndo() { return !pilaUndo.estaVacia(); }

@@ -26,7 +26,7 @@ public class ListaNotas {
         if (estaVacia()) return null;
 
         // Eliminar la cabeza
-        if(cabeza.getDato().getId()==id){
+        if(cabeza.getDato().getId() == id){
             Nota notaEliminada = cabeza.getDato(); // 1. Capturar el objeto a eliminar
             cabeza = cabeza.getSiguiente();
             return notaEliminada;                  // 2. Retornarlo

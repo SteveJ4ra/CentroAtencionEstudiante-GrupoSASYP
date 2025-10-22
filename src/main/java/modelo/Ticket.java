@@ -40,10 +40,9 @@ public class Ticket {
         this.estado = nuevoEstado;
     }
 
-    // Getters y toString (corrección de tipo de estado)
     @Override
     public String toString() {
-        return String.format("Ticket #%d | Cliente: %s | Estado: %s", id, nombreCliente, estado.toString());
+        return "Ticket id = " + id;
     }
 
     public int getId() { return id; }

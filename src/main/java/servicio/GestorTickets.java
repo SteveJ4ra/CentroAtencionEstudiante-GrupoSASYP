@@ -9,20 +9,22 @@ import servicio.acciones.AccionAgregarNota;
 import servicio.acciones.AccionCambiarEstado;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
+
 import servicio.acciones.AccionEliminarNota;
 
 public class GestorTickets {
 
     private final QuequeCAE colaTickets; // Almacena casos en espera (FIFO)
-    private Ticket ticketEnAtencion; // Solo un caso a la vez 
+    private Ticket ticketEnAtencion; // Solo un caso a la vez
     private final UndoRedoManager undoRedoManager; // Gestiona el historial de acciones 
     // Almacena tickets finalizados para consulta posterior (id -> Ticket) 
-    private final Map<Integer, Ticket> ticketsFinalizados;
+    private final TreeMap<Integer, Ticket> ticketsFinalizados;
 
     public GestorTickets() {
         this.colaTickets = new QuequeCAE();
         this.undoRedoManager = new UndoRedoManager();
-        this.ticketsFinalizados = new HashMap<>();
+        this.ticketsFinalizados = new TreeMap<>();
     }
 
     // Recepción de un nuevo caso 
@@ -45,6 +47,7 @@ public class GestorTickets {
             System.err.println(" Ya hay un ticket en atención (#" + ticketEnAtencion.getId() + "). Finalice primero.");
             return false;
         }
+
         Ticket siguiente = colaTickets.dequeue();
         if (siguiente == null) {
             System.err.println(" La cola de tickets está vacía. No hay casos para atender.");
@@ -59,28 +62,39 @@ public class GestorTickets {
         return true;
     }
 
-    // Finalización de la atención de un caso 
+    // Finalización de la atzención de un caso
     public boolean finalizarCaso(Estado estadoFinal) {
         if (ticketEnAtencion == null) {
             System.err.println(" No hay caso en atención para finalizar.");
             return false;
         }
 
-        // Se usa la acción para registrar el cambio de estado (aunque se pierda el historial de undo/redo al finalizar)
-        // Se puede registrar una última acción de cambio de estado final
+        // NO permitir finalizar si aún está EN_ATENCION
+        if (ticketEnAtencion.getEstado() == Estado.EN_ATENCION) {
+            System.err.println(" No se puede finalizar el caso: el ticket está en estado EN ATENCIÓN. Cambie el estado antes de finalizar.");
+            return false;
+        }
+
+        // Si el estado final es COMPLETADO, registrar el cambio final (opcional)
         Estado estadoAnterior = ticketEnAtencion.getEstado();
+
         AccionCambiarEstado accionFinal = new AccionCambiarEstado(ticketEnAtencion, estadoAnterior, estadoFinal);
         accionFinal.ejecutar(); // Ejecuta el cambio de estado final
 
         ticketsFinalizados.put(ticketEnAtencion.getId(), ticketEnAtencion);
         System.out.println("\n--- Caso Finalizado ---");
-        System.out.println(" Ticket #" + ticketEnAtencion.getId() + " finalizado en estado: " + estadoFinal);
-        // El historial de notas está conservado en el objeto Ticket
+        System.out.println(" Ticket #" + ticketEnAtencion.getId() + " finalizado en estado: " + ticketEnAtencion.getEstado());
         ticketEnAtencion = null;
         undoRedoManager.limpiarHistorial(); // Limpiar el historial corto al finalizar
         return true;
     }
 
+<<<<<<< Updated upstream
+=======
+
+    // --- Métodos de Operación en Atención (Observaciones/Notas) ---
+
+>>>>>>> Stashed changes
     // Registrar una observación (nota) 
     public boolean registrarNota(String texto) {
         if (ticketEnAtencion == null) {
@@ -101,18 +115,6 @@ public class GestorTickets {
 
     public int redoCount() {
         return undoRedoManager.redoCount();
-    }
-
-    public boolean deshacerAccion() {
-        if (ticketEnAtencion == null) {
-            System.err.println(" No hay caso en atención para deshacer acciones.");
-            return false;
-        }
-        if (undoRedoManager.deshacer()) {
-            System.out.println(" Acción deshecha con éxito.");
-            return true;
-        }
-        return false;
     }
 
     public boolean eliminarNota(int idNota) {
@@ -137,6 +139,19 @@ public class GestorTickets {
         }
     }
 
+    public boolean deshacerAccion() {
+        if (ticketEnAtencion == null) {
+            System.err.println(" No hay caso en atención para deshacer acciones.");
+            return false;
+        }
+        if (undoRedoManager.deshacer()) {
+            System.out.println(" Acción deshecha con éxito.");
+            System.out.println("--- Ticket #" + ticketEnAtencion.getId() + " ---");
+            return true;
+        }
+        return false;
+    }
+
     public boolean rehacerAccion() {
         if (ticketEnAtencion == null) {
             System.err.println(" No hay caso en atención para rehacer acciones.");
@@ -144,11 +159,38 @@ public class GestorTickets {
         }
         if (undoRedoManager.rehacer()) {
             System.out.println(" Acción rehecha con éxito.");
+            System.out.println("--- Ticket #" + ticketEnAtencion.getId() + " ---");
             return true;
         }
         return false;
     }
 
+<<<<<<< Updated upstream
+=======
+
+    // Nuevo método para listar casos finalizados
+    public void listarCasosFinalizados() {
+        if (ticketsFinalizados == null || ticketsFinalizados.isEmpty()) {
+            System.out.println("No se ha finalizado ningún caso.");
+            return;
+        }
+        System.out.println("\n--- Casos Finalizados (" + ticketsFinalizados.size() + ") ---");
+        for (Map.Entry<Integer, Ticket> entry : ticketsFinalizados.entrySet()) {
+            Ticket t = entry.getValue();
+            System.out.println("Ticket #" + t.getId() + " - Cliente: " + t.getNombreCliente() + " - Estado: " + t.getEstado());
+            // Listar notas (si quieres mostrar sólo resumen de notas, podrías modificar ListaNotas)
+            t.getListaNotas().mostrar();
+            System.out.println("---------------------------------");
+        }
+    }
+    // Devuelve true si existen tickets finalizados en el historial
+    public boolean hayTicketsFinalizados() {
+        return ticketsFinalizados != null && !ticketsFinalizados.isEmpty();
+    }
+
+    // --- Métodos de Consulta ---
+
+>>>>>>> Stashed changes
     // Consulta del historial de un caso específico 
     public void consultarHistorial(int idTicket) {
         Ticket ticket = ticketsFinalizados.get(idTicket);
@@ -190,4 +232,11 @@ public class GestorTickets {
         System.out.println(" Estado del Ticket #" + ticketEnAtencion.getId() + " cambiado a " + nuevoEstado + " y acción registrada.");
         return true;
     }
+
+
+    public boolean estaVacia(){
+        return colaTickets.estaVacia();
+    }
+
+
 }

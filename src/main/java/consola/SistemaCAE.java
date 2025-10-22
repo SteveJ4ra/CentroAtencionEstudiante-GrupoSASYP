@@ -1,5 +1,8 @@
 package consola;
 
+import estructuras.cola.QuequeCAE;
+import estructuras.lista.ListaNotas;
+import estructuras.lista.NodoNota;
 import servicio.GestorTickets;
 import modelo.Estado;
 import java.util.Scanner;
@@ -13,6 +16,7 @@ public class SistemaCAE {
     public static void main(String[] args) {
         ejecutarMenuPrincipal();
     }
+
 
     private static void ejecutarMenuPrincipal() {
         int opcion;
@@ -76,6 +80,19 @@ public class SistemaCAE {
     }
 
     private static void consultarHistorial() {
+
+        // Si no hay ningún ticket en cola Y no hay finalizados, avisar al usuario.
+        if (gestor.estaVacia() && !gestor.hayTicketsFinalizados()) {
+            System.out.println("No existen aún casos finalizados");
+            return;
+        }
+
+        // Si no hay tickets finalizados, también informamos (más directo)
+        if (!gestor.hayTicketsFinalizados()) {
+            System.out.println("No existen aún casos finalizados");
+            return;
+        }
+
         System.out.print("Ingrese ID del Ticket a consultar (debe estar finalizado): ");
         try {
             int id = scanner.nextInt();
@@ -86,6 +103,7 @@ public class SistemaCAE {
             scanner.nextLine();
         }
     }
+
 
     // --- Sub-Menú para Caso en Atención ---
 
@@ -193,6 +211,7 @@ public class SistemaCAE {
     }
 
     private static void finalizarCasoEnAtencion() {
+
         gestor.finalizarCaso(gestor.getTicketEnAtencion().getEstado());
     }
 }

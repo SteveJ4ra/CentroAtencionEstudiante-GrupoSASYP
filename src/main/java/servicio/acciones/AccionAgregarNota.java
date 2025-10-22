@@ -35,4 +35,11 @@ public class AccionAgregarNota extends Accion {
         // Eliminación por primera coincidencia del ID de la nota
         ticket.getListaNotas().eliminar(nota.getId());
     }
+    @Override
+    public String getResumenDetallado() {
+        return String.format("AGREGAR_NOTA: Ticket #%d - Nota ID %d: \"%s\"",
+                ticket.getId(), nota.getId(), nota.getTexto());
+    }
+
+
 }
